@@ -1,3 +1,0 @@
-/home/xiaojy/workstation/testmuduo/build/CMakeFiles/muduo_chat_server.dir
-/home/xiaojy/workstation/testmuduo/build/CMakeFiles/edit_cache.dir
-/home/xiaojy/workstation/testmuduo/build/CMakeFiles/rebuild_cache.dir

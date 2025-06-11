@@ -1,3 +1,0 @@
-/home/xiaojy/workstation/testmysql/build/CMakeFiles/MySQL_Demo.dir
-/home/xiaojy/workstation/testmysql/build/CMakeFiles/edit_cache.dir
-/home/xiaojy/workstation/testmysql/build/CMakeFiles/rebuild_cache.dir
