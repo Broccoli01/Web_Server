@@ -6,7 +6,7 @@ class UserModel
 {
 private:
 public:
-bool insert(User &user);
+    bool insert(User &user);
 };
 
 #endif
