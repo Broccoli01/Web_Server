@@ -4,7 +4,7 @@
 #include <muduo/base/Logging.h> // Muduo 日志库，用于 LOG_ERROR、LOG_INFO 等
 #include "nlohmann/json.hpp"
 
-using json = nlohmann::json; 
+using json = nlohmann::json;
 // 单例模式：获取 ChatService 的唯一实例
 ChatService *ChatService::instance()
 {
@@ -58,6 +58,46 @@ void ChatService::login(const muduo::net::TcpConnectionPtr &conn,
                         muduo::Timestamp time)
 {
     // TODO: 实现登录验证、更新用户状态、返回结果给客户端等
+    int id = js["id"].get<int>();
+    string pwd = js["password"];
+
+    User user = _userModel.query(id);
+    if (user.getId() == id && user.getPassword() == pwd)
+    {
+        if (user.getState() == "online")
+        {
+            // 该用户已经在线了
+            json response;
+            response["msgid"] = LOGIN_MSG_ACK;
+            response["errno"] = 2;
+            response["errmsg"] = "用户已经登录，不允许重复登录";
+            conn->send(response.dump());
+        }
+        else
+        {
+            // 登陆成功
+            //更新用户状态信息
+            user.setState("online");
+            _userModel.updateState(user);
+            json response;
+            response["msgid"] = LOGIN_MSG_ACK;
+            response["errno"] = 0;
+            response["id"] = user.getId();
+            response["name"] = user.getName();
+            conn->send(response.dump());
+            
+
+        }
+    }
+    else
+    {
+        // 登录失败
+        json response;
+        response["msgid"] = REG_MSG_ACK;
+        response["errno"] = 1;
+        response["errmsg"] = "用户名或者密码错误";
+        conn->send(response.dump());
+    }
 }
 
 // 处理注册请求的业务逻辑（stub）
